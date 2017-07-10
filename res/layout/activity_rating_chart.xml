@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="comcondrint.github.sleepdata.RatingChart">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="365dp"
+        android:layout_marginLeft="25dp"
+        android:text="5 - Easily wake up, no negative effects of sleep \n\n4 - Can wake up relatively easy, but may experience \n'tired eyes' or slight grogginess\n\n3 - May take a moment to reorientate and get out of \nbed, but not difficult\n\n2 - It is a little hard to get out of bed and you may lay \nback down/snooze your alarm\n\n1 - It is very hard to get out of bed, you may snooze \nmultiple times, fall back asleep, and grogginess lingers"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="68dp" />
+</android.support.constraint.ConstraintLayout>
