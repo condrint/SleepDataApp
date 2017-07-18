@@ -8,11 +8,22 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="400dp"
-        android:layout_height="365dp"
-        android:layout_marginLeft="25dp"
-        android:text="5 - Easily wake up, no negative effects of sleep \n\n4 - Can wake up relatively easy, but may experience \n'tired eyes' or slight grogginess\n\n3 - May take a moment to reorientate and get out of \nbed, but not difficult\n\n2 - It is a little hard to get out of bed and you may lay \nback down/snooze your alarm\n\n1 - It is very hard to get out of bed, you may snooze \nmultiple times, fall back asleep, and grogginess lingers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="66dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginLeft="67dp"
+        android:layout_marginRight="67dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="66dp"
+        android:text="@string/rating_chart"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="68dp" />
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:text="@string/rating_chart" />
 </android.support.constraint.ConstraintLayout>
