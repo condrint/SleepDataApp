@@ -7,3 +7,4 @@ TODO:
 - ~~display a confirmation message when data is saved~~
 - allow deletion of data entries
 - maybe some sort of linear regression function to predict when best to fall asleep/wake up
+- convert storage from shared preferences (hashmap) to array or anything else sensible that allows duplicates
