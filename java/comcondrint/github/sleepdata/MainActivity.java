@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
 
-    SharedPreferences pref;
-    SharedPreferences.Editor dataEditor;
+    public static SharedPreferences pref;
+    public SharedPreferences.Editor dataEditor;
 
     EditText RateText;
     EditText WakeText;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Date date1 = format.parse(WakeTime);
             Date date2 = format.parse(SleepTime);
-            float difference = Math.abs((date2.getTime() - date1.getTime())) * 3600000;
+            float difference = Math.abs((date2.getTime() - date1.getTime()) / 3600000);
             pair[0] = difference;
             pair[1] = Rating;
 
@@ -59,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         dataEditor = pref.edit();
 
+
         SleepText = (EditText)findViewById(R.id.SleepText);
         WakeText = (EditText)findViewById(R.id.WakeText);
         RateText = (EditText)findViewById(R.id.RateText);
 
         saveAlert = new AlertDialog.Builder(MainActivity.this).create();
-        saveAlert.setMessage("Data saved");
+
 
         formatAlert = new AlertDialog.Builder(MainActivity.this).create();
         formatAlert.setMessage("Wrong input format");
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToData(View view)
     {
+
         Intent intent = new Intent(MainActivity.this, SleepDataActivity.class);
         startActivity(intent);
     }
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             RateText.setText("");
             WakeText.setText("");
             SleepText.setText("");
+            saveAlert.setMessage("Data saved" + ": " + amtSleep + " / " + Integer.toString((Math.round(pair[1]))));
             saveAlert.show();
         } else{
             //wrong format

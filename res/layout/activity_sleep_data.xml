@@ -6,4 +6,21 @@
     android:layout_height="match_parent"
     tools:context="comcondrint.github.sleepdata.SleepDataActivity">
 
+    <TextView
+        android:id="@+id/sleepdatadisplay"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="44dp"
+        android:text=" "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
 </android.support.constraint.ConstraintLayout>
