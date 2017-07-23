@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import java.text.*;
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     AlertDialog saveAlert;
     AlertDialog formatAlert;
+
+    Integer currentValue;
 
     public float[] extractData() {
 
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         dataEditor = pref.edit();
 
+        dataEditor.clear(); //for testing
+        dataEditor.apply();
 
         SleepText = (EditText)findViewById(R.id.SleepText);
         WakeText = (EditText)findViewById(R.id.WakeText);
@@ -66,9 +71,19 @@ public class MainActivity extends AppCompatActivity {
 
         saveAlert = new AlertDialog.Builder(MainActivity.this).create();
 
-
         formatAlert = new AlertDialog.Builder(MainActivity.this).create();
         formatAlert.setMessage("Wrong input format");
+
+        Map <String,?> prefs = pref.getAll();
+        Integer max = -1;
+        for (String key : prefs.keySet()) {
+            if (Integer.parseInt(key) > max) {
+                max = Integer.parseInt(key);
+            }
+        }
+
+        currentValue = max + 1;
+
     }
 
     public void goToRatings(View view)
@@ -90,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
         if (checkFormat(view)) {
             float[] pair = extractData();
             String amtSleep = Float.toString(pair[0]);
-            dataEditor.putInt(amtSleep , Math.round(pair[1]));
+            dataEditor.putString(Integer.toString(currentValue), amtSleep + " / " + Integer.toString(Math.round(pair[1])));
             dataEditor.apply();
             RateText.setText("");
             WakeText.setText("");
             SleepText.setText("");
-            saveAlert.setMessage("Data saved" + ": " + amtSleep + " / " + Integer.toString((Math.round(pair[1]))));
+            saveAlert.setMessage("Data saved" + ": " + amtSleep + " Hours / " + Integer.toString((Math.round(pair[1]))));
             saveAlert.show();
         } else{
             //wrong format
@@ -118,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
             //check 24hr format
             Pattern pattern;
-            Matcher matcher;
             pattern = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]");
             String WakeTime = WakeText.getText().toString();
             String SleepTime = SleepText.getText().toString();
