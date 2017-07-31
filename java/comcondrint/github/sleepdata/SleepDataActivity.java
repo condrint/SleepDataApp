@@ -1,5 +1,6 @@
 package comcondrint.github.sleepdata;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,24 +11,29 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.Map;
 
-import static comcondrint.github.sleepdata.R.id.sleepdatadisplay;
+import static comcondrint.github.sleepdata.MainActivity.dataEditor;
+
 
 public class SleepDataActivity extends AppCompatActivity {
 
-    public static TextView sleepdata;
+    EditText sleepdata;
     EditText DeleteText;
     AlertDialog formatAlert;
+    AlertDialog deleteAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_data);
-        sleepdata = (TextView)findViewById(sleepdatadisplay);
-        SleepDataActivity.sleepdata.setText(MainActivity.pref.getAll().toString());
+        sleepdata = (EditText) findViewById(R.id.sleepdata);
+        sleepdata.setText(MainActivity.pref.getAll().toString());
         DeleteText = (EditText)findViewById(R.id.DeleteIndex);
+
+        //dataEditor = MainActivity.pref.edit();
 
         formatAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
         formatAlert.setMessage("Format must be an integer that exists in the data");
+        deleteAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
 
     }
 
@@ -35,7 +41,15 @@ public class SleepDataActivity extends AppCompatActivity {
     {
         if (checkFormat(view))
         {
-            Integer index = Integer.parseInt(DeleteText.getText().toString());
+            String index = DeleteText.getText().toString();
+            MainActivity.delete(index);
+            DeleteText.setText("");
+
+            deleteAlert.setMessage("Deleted entry #" + index);
+            deleteAlert.show();
+
+            //refresh data
+            sleepdata.setText(MainActivity.pref.getAll().toString());
 
         }
         else
@@ -43,6 +57,7 @@ public class SleepDataActivity extends AppCompatActivity {
             formatAlert.show();
         }
     }
+
 
     public boolean checkFormat(View view)
     {
