@@ -8,5 +8,5 @@ TODO:
 - allow deletion of data entries
 - maybe some sort of linear regression function to predict when best to fall asleep/wake up
 - ~~convert storage from shared preferences (hashmap) to array or anything else sensible that allows duplicates~~
-- clean up formatting / unused code
+- clean up formatting / unused code / make UI prettier
 - create a gif/video demonstration so nobody has to wonder if this compiles
