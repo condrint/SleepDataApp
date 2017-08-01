@@ -56,22 +56,30 @@
         android:layout_marginRight="61dp" />
 
     <EditText
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:id="@+id/sleepdata"
         android:layout_width="0dp"
-        android:layout_height="217dp"
+        android:layout_height="229dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:editable="false"
         android:ems="10"
         android:inputType="textPersonName"
+        android:singleLine="false"
         android:text=" "
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="79dp"
+        android:layout_marginTop="16dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp" />
+
 
 </android.support.constraint.ConstraintLayout>

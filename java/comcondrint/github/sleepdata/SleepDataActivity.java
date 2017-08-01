@@ -29,7 +29,7 @@ public class SleepDataActivity extends AppCompatActivity {
         sleepdata.setText(MainActivity.pref.getAll().toString());
         DeleteText = (EditText)findViewById(R.id.DeleteIndex);
 
-        //dataEditor = MainActivity.pref.edit();
+        dataEditor = MainActivity.pref.edit();
 
         formatAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
         formatAlert.setMessage("Format must be an integer that exists in the data");
@@ -39,10 +39,11 @@ public class SleepDataActivity extends AppCompatActivity {
 
     public void delete (View view)
     {
-        if (checkFormat(view))
+        String index = DeleteText.getText().toString();
+
+        if (checkFormat(index))
         {
-            String index = DeleteText.getText().toString();
-            MainActivity.delete(index);
+            MainActivity.delete(index.trim());
             DeleteText.setText("");
 
             deleteAlert.setMessage("Deleted entry #" + index);
@@ -54,13 +55,21 @@ public class SleepDataActivity extends AppCompatActivity {
         }
         else
         {
+
             formatAlert.show();
         }
     }
 
 
-    public boolean checkFormat(View view)
+    public boolean checkFormat(String index)
     {
-        return true;
+        boolean hasKey = false;
+        Map <String,?> prefs = MainActivity.pref.getAll();
+        for (String key : prefs.keySet()) {
+            if (key.trim().equals(index.trim())) {
+                hasKey = true;
+            }
+        }
+        return hasKey;
     }
 }

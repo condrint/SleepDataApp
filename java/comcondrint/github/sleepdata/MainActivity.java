@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import java.text.*;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -161,10 +162,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void delete(String index)
-    {
-        dataEditor.remove(index);
-        dataEditor.apply();
-    }
+    public static void delete(String index) {
+        // SharedPreferences.contains() and .remove() was ignoring some entries, so copy map, remove key, and update prefs, not very efficient
+        //copy map
+        //Map<String, ?> prefs = pref.getAll();
 
+        //remove key
+        //for (String key : prefs.keySet()) {
+        //    if (key.equals(index)) {
+        //        prefs.remove(index);
+        //     }
+        //}
+
+        //clear prefs
+        //dataEditor.clear();
+
+        //update prefs with new map
+        //Iterator it = prefs.entrySet().iterator();
+        //while (it.hasNext()) {
+        //    Map.Entry pair = (Map.Entry) it.next();
+        //    dataEditor.putString(pair.getKey().toString(), pair.getValue().toString());
+        //    it.remove(); // avoids a ConcurrentModificationException
+        // }
+        dataEditor.remove(index.trim());
+        dataEditor.apply();
+
+    }
 }
