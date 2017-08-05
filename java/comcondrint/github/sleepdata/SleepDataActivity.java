@@ -6,8 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.support.v7.app.AlertDialog;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
+
 
 import java.util.Map;
 
@@ -20,6 +21,8 @@ public class SleepDataActivity extends AppCompatActivity {
     EditText DeleteText;
     AlertDialog formatAlert;
     AlertDialog deleteAlert;
+    AlertDialog sizeAlert;
+    AlertDialog modelAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class SleepDataActivity extends AppCompatActivity {
         formatAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
         formatAlert.setMessage("Format must be an integer that exists in the data");
         deleteAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
+        sizeAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
+        sizeAlert.setMessage("To get more accurate results, enter more data");
+        modelAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
+
+
 
     }
 
@@ -71,5 +79,25 @@ public class SleepDataActivity extends AppCompatActivity {
             }
         }
         return hasKey;
+    }
+
+    public void model(View view)
+    {
+        int preflength = MainActivity.pref.getAll().keySet().size(); //number of entries
+        if (preflength < 30)
+        {
+          sizeAlert.show();
+        }
+
+        SimpleRegression model = new SimpleRegression(true);
+        Map <String,?> prefs = MainActivity.pref.getAll();
+
+        for(Map.Entry<String,?> entry : prefs.entrySet()){
+            String[] data = entry.getValue().toString().split(" / "); // sleep time will be y ([1]) and rating x ([0])
+            model.addData(Double.parseDouble(data[1]), Double.parseDouble((data[0])));
+        }
+
+        modelAlert.setMessage("Based on the data entered and a linear model, the ideal quantity of sleep is " + Math.round(model.predict(5.0)*100.0)/100.0 + " hours.");
+        modelAlert.show();
     }
 }

@@ -30,17 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
     Integer currentValue;
 
-    public float[] extractData() {
+    public double[] extractData() {
 
         //Get rating 1-5 to use as value for storage
-        float Rating = Float.parseFloat(RateText.getText().toString());
+        Double Rating = Double.parseDouble(RateText.getText().toString());
 
         //Extract difference between sleep/wake time to use as key for storage
         String WakeTime = WakeText.getText().toString();
         String SleepTime = SleepText.getText().toString();
 
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        float[] pair = new float [2];
+        double[] pair = new double [2];
         try {
             Date wake = format.parse(WakeTime);
             Date sleep = format.parse(SleepTime);
@@ -49,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
             //two cases to deal with 24hr time format
             if (wake.after(sleep)) {
-                float difference = ((wake.getTime() - sleep.getTime()) / 3600000);
+                double difference = ((wake.getTime() - sleep.getTime()) / 3600000);
                 pair[0] = difference;
             }
             else
             {
-                float difference = ((wake.getTime() + (midnight.getTime() - sleep.getTime())) / 3600000);
+                double difference = ((wake.getTime() + (midnight.getTime() - sleep.getTime())) / 3600000);
                 pair[0] = difference;
             }
 
@@ -118,14 +118,14 @@ public class MainActivity extends AppCompatActivity {
     {
         //amt of sleep is key, rating of ease of waking is value
         if (checkFormat(view)) {
-            float[] pair = extractData();
-            String amtSleep = Float.toString(pair[0]);
-            dataEditor.putString(Integer.toString(currentValue), amtSleep + " / " + Integer.toString(Math.round(pair[1])));
+            double[] pair = extractData();
+            String amtSleep = Double.toString(pair[0]);
+            dataEditor.putString(Integer.toString(currentValue), amtSleep + " / " + Double.toString(pair[1]));
             dataEditor.apply();
             RateText.setText("");
             WakeText.setText("");
             SleepText.setText("");
-            saveAlert.setMessage("Data saved" + ": " + amtSleep + " Hours / " + Integer.toString((Math.round(pair[1]))));
+            saveAlert.setMessage("Data saved" + ": " + amtSleep + " Hours / " + Double.toString(pair[1]));
             saveAlert.show();
         } else{
             //wrong format
@@ -163,27 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void delete(String index) {
-        // SharedPreferences.contains() and .remove() was ignoring some entries, so copy map, remove key, and update prefs, not very efficient
-        //copy map
-        //Map<String, ?> prefs = pref.getAll();
 
-        //remove key
-        //for (String key : prefs.keySet()) {
-        //    if (key.equals(index)) {
-        //        prefs.remove(index);
-        //     }
-        //}
-
-        //clear prefs
-        //dataEditor.clear();
-
-        //update prefs with new map
-        //Iterator it = prefs.entrySet().iterator();
-        //while (it.hasNext()) {
-        //    Map.Entry pair = (Map.Entry) it.next();
-        //    dataEditor.putString(pair.getKey().toString(), pair.getValue().toString());
-        //    it.remove(); // avoids a ConcurrentModificationException
-        // }
         dataEditor.remove(index.trim());
         dataEditor.apply();
 
