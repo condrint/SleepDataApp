@@ -9,10 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import java.text.*;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog saveAlert;
     AlertDialog formatAlert;
 
+
     Integer currentValue;
 
     public double[] extractData() {
@@ -42,21 +42,27 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         double[] pair = new double [2];
         try {
-            Date wake = format.parse(WakeTime);
-            Date sleep = format.parse(SleepTime);
+            Calendar wake = Calendar.getInstance();
+            Calendar sleep = Calendar.getInstance();
+            wake.setTime(format.parse(WakeTime));
+            sleep.setTime(format.parse(SleepTime));
+
             Date midnight = new Date();
             midnight.setTime(24*3600000); //24 hours (midnight) converted to ms
 
             //two cases to deal with 24hr time format
             if (wake.after(sleep)) {
-                double difference = ((wake.getTime() - sleep.getTime()) / 3600000);
+                double difference = ((wake.getTimeInMillis() - sleep.getTimeInMillis()) / 3600000);
                 pair[0] = difference;
             }
             else
             {
-                double difference = ((wake.getTime() + (midnight.getTime() - sleep.getTime())) / 3600000);
+                double difference = ((wake.getTimeInMillis() + (midnight.getTime() - sleep.getTimeInMillis())) / 3600000);
                 pair[0] = difference;
             }
+            //add minutes
+            double minutes = Math.abs(wake.get(Calendar.MINUTE)- sleep.get(Calendar.MINUTE));
+            pair[0] = pair[0] + (minutes/60);
 
         } catch (ParseException e){
             ; //should never get here because I check the format before calling extractdata()
@@ -93,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         RateText = (EditText)findViewById(R.id.RateText);
 
         saveAlert = new AlertDialog.Builder(MainActivity.this).create();
+
 
         formatAlert = new AlertDialog.Builder(MainActivity.this).create();
         formatAlert.setMessage("Wrong input format");

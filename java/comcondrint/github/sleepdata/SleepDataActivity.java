@@ -4,8 +4,13 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 
@@ -17,7 +22,9 @@ import static comcondrint.github.sleepdata.MainActivity.dataEditor;
 
 public class SleepDataActivity extends AppCompatActivity {
 
-    EditText sleepdata;
+
+    TextView sleepdatatext;
+
     EditText DeleteText;
     AlertDialog formatAlert;
     AlertDialog deleteAlert;
@@ -28,8 +35,10 @@ public class SleepDataActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_data);
-        sleepdata = (EditText) findViewById(R.id.sleepdata);
-        sleepdata.setText(MainActivity.pref.getAll().toString());
+
+        sleepdatatext = (TextView) findViewById(R.id.sleepdatatext);
+        sleepdatatext.setText(MainActivity.pref.getAll().toString());
+        sleepdatatext.setMovementMethod(new ScrollingMovementMethod());
         DeleteText = (EditText)findViewById(R.id.DeleteIndex);
 
         dataEditor = MainActivity.pref.edit();
@@ -58,7 +67,7 @@ public class SleepDataActivity extends AppCompatActivity {
             deleteAlert.show();
 
             //refresh data
-            sleepdata.setText(MainActivity.pref.getAll().toString());
+            sleepdatatext.setText(MainActivity.pref.getAll().toString());
 
         }
         else
