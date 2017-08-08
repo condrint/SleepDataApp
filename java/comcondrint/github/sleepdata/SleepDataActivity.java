@@ -1,6 +1,8 @@
 package comcondrint.github.sleepdata;
 
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +39,10 @@ public class SleepDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sleep_data);
 
         sleepdatatext = (TextView) findViewById(R.id.sleepdatatext);
-        sleepdatatext.setText(MainActivity.pref.getAll().toString());
+        refresh();
+
+
+
         sleepdatatext.setMovementMethod(new ScrollingMovementMethod());
         DeleteText = (EditText)findViewById(R.id.DeleteIndex);
 
@@ -66,8 +71,7 @@ public class SleepDataActivity extends AppCompatActivity {
             deleteAlert.setMessage("Deleted entry #" + index);
             deleteAlert.show();
 
-            //refresh data
-            sleepdatatext.setText(MainActivity.pref.getAll().toString());
+            refresh();
 
         }
         else
@@ -106,7 +110,37 @@ public class SleepDataActivity extends AppCompatActivity {
             model.addData(Double.parseDouble(data[1]), Double.parseDouble((data[0])));
         }
 
-        modelAlert.setMessage("Based on the data entered and a linear model, the ideal quantity of sleep is " + Math.round(model.predict(5.0)*100.0)/100.0 + " hours.");
+        modelAlert.setMessage("Based on the data entered and a linear model, the ideal quantity of sleep is " + Math.round(model.predict(5.0)*100.0)/100.0 + " hours");
         modelAlert.show();
+    }
+
+    public void refresh()
+    {
+        sleepdatatext.setText("");
+        Map <String,?> prefs = MainActivity.pref.getAll();
+        String alldata[][] = new String[prefs.size()][3];
+        int counter = 0;
+        for(Map.Entry<String,?> entry : prefs.entrySet()){
+            String[] data = entry.getValue().toString().split(" / "); // sleep time will be y ([1]) and rating x ([0])
+            alldata[counter][0] = entry.getKey();
+            alldata[counter][1] = data[0];
+            alldata[counter][2] = data[1];
+            counter += 1;
+        }
+
+        //sort by original index
+        java.util.Arrays.sort(alldata, new java.util.Comparator<String[]>() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            public int compare(String[] a, String[] b) {
+                int a1 = Integer.parseInt(a[0]);
+                int b1 = Integer.parseInt(b[0]);
+                return Integer.compare(a1, b1);
+            }
+        });
+
+        for(int i = 0; i < alldata.length; i++){
+            sleepdatatext.append("#" + alldata[i][0] + ": " + alldata[i][1] + " hours of sleep rated " + Math.round(Double.parseDouble(alldata[i][2])) + " out of 5 \n\n");
+        }
+
     }
 }

@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
             }
             //add minutes
             double minutes = Math.abs(wake.get(Calendar.MINUTE)- sleep.get(Calendar.MINUTE));
-            pair[0] = pair[0] + (minutes/60);
+            pair[0] = pair[0] + Math.round((minutes/60)*100.0)/100.0; //round to two decimal places
 
         } catch (ParseException e){
-            ; //should never get here because I check the format before calling extractdata()
+            ; //should never get here because format is already checked by checkFormat()
         };
 
         //get next index to use
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             RateText.setText("");
             WakeText.setText("");
             SleepText.setText("");
-            saveAlert.setMessage("Data saved" + ": " + amtSleep + " Hours / " + Double.toString(pair[1]));
+            saveAlert.setMessage("Data saved" + ": " + amtSleep + " Hours / " + Math.round(pair[1]));
             saveAlert.show();
         } else{
             //wrong format
