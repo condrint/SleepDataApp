@@ -24,10 +24,10 @@ import static comcondrint.github.sleepdata.MainActivity.dataEditor;
 
 public class SleepDataActivity extends AppCompatActivity {
 
-
     TextView sleepdatatext;
 
     EditText DeleteText;
+
     AlertDialog formatAlert;
     AlertDialog deleteAlert;
     AlertDialog sizeAlert;
@@ -39,10 +39,6 @@ public class SleepDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sleep_data);
 
         sleepdatatext = (TextView) findViewById(R.id.sleepdatatext);
-        refresh();
-
-
-
         sleepdatatext.setMovementMethod(new ScrollingMovementMethod());
         DeleteText = (EditText)findViewById(R.id.DeleteIndex);
 
@@ -55,7 +51,7 @@ public class SleepDataActivity extends AppCompatActivity {
         sizeAlert.setMessage("To get more accurate results, enter more data");
         modelAlert = new AlertDialog.Builder(SleepDataActivity.this).create();
 
-
+        refresh();
 
     }
 
@@ -76,7 +72,6 @@ public class SleepDataActivity extends AppCompatActivity {
         }
         else
         {
-
             formatAlert.show();
         }
     }
@@ -85,6 +80,7 @@ public class SleepDataActivity extends AppCompatActivity {
     public boolean checkFormat(String index)
     {
         boolean hasKey = false;
+        //iterate through data to check whether key exists or not
         Map <String,?> prefs = MainActivity.pref.getAll();
         for (String key : prefs.keySet()) {
             if (key.trim().equals(index.trim())) {
@@ -96,7 +92,9 @@ public class SleepDataActivity extends AppCompatActivity {
 
     public void model(View view)
     {
-        int preflength = MainActivity.pref.getAll().keySet().size(); //number of entries
+        //number of data entries
+        int preflength = MainActivity.pref.getAll().keySet().size();
+
         if (preflength < 30)
         {
           sizeAlert.show();
@@ -105,8 +103,10 @@ public class SleepDataActivity extends AppCompatActivity {
         SimpleRegression model = new SimpleRegression(true);
         Map <String,?> prefs = MainActivity.pref.getAll();
 
+        // sleep time will be y ([1]) and rating x ([0])
         for(Map.Entry<String,?> entry : prefs.entrySet()){
-            String[] data = entry.getValue().toString().split(" / "); // sleep time will be y ([1]) and rating x ([0])
+            //parse data out of the format it is stored in
+            String[] data = entry.getValue().toString().split(" / ");
             model.addData(Double.parseDouble(data[1]), Double.parseDouble((data[0])));
         }
 
@@ -122,6 +122,7 @@ public class SleepDataActivity extends AppCompatActivity {
         int counter = 0;
         for(Map.Entry<String,?> entry : prefs.entrySet()){
             String[] data = entry.getValue().toString().split(" / "); // sleep time will be y ([1]) and rating x ([0])
+            //put data into an n by 3 matrix (where is is # of data entries) to sort them and make the UI more understandable
             alldata[counter][0] = entry.getKey();
             alldata[counter][1] = data[0];
             alldata[counter][2] = data[1];
