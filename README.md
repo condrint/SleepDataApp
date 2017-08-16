@@ -10,4 +10,4 @@ TODO:
 - ~~convert storage from shared preferences (hashmap) to array or anything else sensible that allows duplicates~~
 - ~~clean up formatting / unused code / make UI prettier~~
 - ~~fix rounding of sleep amount to closest hour~~
-- create a gif/video demonstration so nobody has to wonder if this compiles
+- ~~create a gif/video demonstration so nobody has to wonder if this compiles~~
