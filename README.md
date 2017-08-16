@@ -1,6 +1,6 @@
 # SleepDataApp
 
-Simple Android app that allows users (me) to store data about the length of time spent sleeping each night and how hard or easy it was to wake up in the morning. Utilizes a linear regression model to predict the ideal sleep length. [This website](https://examples.javacodegeeks.com/core-java/util/regex/matcher/validate-time-in-24-hours-format-with-java-regular-expression-example/) helped me make this small project.
+Simple Android app that allows users (me) to store data about the length of time spent sleeping each night and how hard or easy it was to wake up in the morning. Utilizes a linear regression model to predict the ideal sleep length. [This website](https://examples.javacodegeeks.com/core-java/util/regex/matcher/validate-time-in-24-hours-format-with-java-regular-expression-example/) helped me make this small project. [Here's](https://youtu.be/kPbMQfTq5Js) a short demo of the app.
 
 TODO:
 - ~~intercept and handle inputs in the wrong format~~
